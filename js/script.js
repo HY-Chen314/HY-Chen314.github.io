@@ -20,14 +20,15 @@ let isNavOpen = false;
    侧边栏功能
    ====================== */
 
-   function openSidebar() {
+// 修改openSidebar和closeSidebar函数
+function openSidebar() {
     sidebar.classList.add('active');
     sidebarOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
     isSidebarOpen = true;
     
-    // 临时禁用滚动监听
-    window.addEventListener('scroll', lockScroll, { passive: false });
+    // 添加导航栏固定类
+    document.querySelector('.navbar').classList.add('sidebar-open');
 }
 
 function closeSidebar() {
@@ -36,8 +37,8 @@ function closeSidebar() {
     document.body.style.overflow = '';
     isSidebarOpen = false;
     
-    // 恢复滚动监听
-    window.removeEventListener('scroll', lockScroll);
+    // 移除导航栏固定类
+    document.querySelector('.navbar').classList.remove('sidebar-open');
 }
 
 // 防止在侧边栏打开时滚动
