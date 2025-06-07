@@ -23,17 +23,21 @@ body {
 }
 
 /* 导航栏 */
+/* 导航栏 - 始终固定在顶部且不受变换影响 */
 .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     background-color: var(--secondary-color);
     color: white;
     padding: 1rem;
-    position: fixed;
-    width: 100%;
-    top: 0;
     z-index: 1100;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    transition: all var(--transition-speed) ease;
+    transform: none !important;
+    will-change: transform;
 }
+
 
 .navbar-container {
     display: flex;
@@ -439,84 +443,33 @@ body {
     order: 3; /* 确保在右侧 */
 }
 
-/* 移动端菜单样式 */
+/* 移动端样式 */
 @media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-        margin-top: 4rem;
-    }
-    
-    .sidebar-toggle,
+    /* 显示菜单按钮 */
     .menu-toggle {
         display: block;
     }
     
-    /* 导航栏不受平移影响 */
-    .navbar {
-        transform: none !important;
+    /* 隐藏桌面导航链接 */
+    .nav-links {
+        display: none;
     }
     
-    /* 侧边栏 - 移动样式 */
+    /* 侧边栏从导航栏下方开始 */
     .sidebar {
-        position: fixed;
-        top: 60px; /* 从导航栏下方开始 */
-        left: 0;
-        width: var(--sidebar-width);
-        height: calc(100vh - 60px); /* 减去导航栏高度 */
-        z-index: 1000;
-        background-color: white;
-        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-        transform: translateX(-100%);
-        transition: transform var(--transition-speed) ease;
-        overflow-y: auto;
-        margin-bottom: 0;
+        top: 60px;
+        height: calc(100vh - 60px);
     }
     
-    .sidebar.active {
-        transform: translateX(0);
-    }
-    
-    /* 主内容区 - 侧边栏打开时效果 */
-    .main-content {
-        margin-left: 0;
-        transform: translateX(0);
-        transition: transform var(--transition-speed) ease;
-    }
-    
+    /* 主内容平移 */
     .sidebar.active ~ .main-content {
         transform: translateX(var(--sidebar-width));
     }
     
-    /* 导航菜单 - 移动样式 */
-    .nav-links {
-        display: none;
-        position: fixed;
-        top: 60px;
-        right: 0;
-        width: 80%;
-        height: calc(100vh - 60px);
-        background-color: var(--secondary-color);
-        flex-direction: column;
-        padding: 1rem;
-        transform: translateX(100%);
-        transition: transform var(--transition-speed) ease;
-        z-index: 1000;
-    }
-    
+    /* 移动菜单样式 */
     .nav-links.active {
-        transform: translateX(0);
-    }
-    
-    .nav-links li {
-        margin: 0.5rem 0;
-    }
-    
-    /* 其他移动端调整 */
-    .hero-content h1 {
-        font-size: 2rem;
-    }
-    
-    .pdf-viewer {
-        height: 400px;
+        display: flex;
+        top: 60px;
+        height: calc(100vh - 60px);
     }
 }

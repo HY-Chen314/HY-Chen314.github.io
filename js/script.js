@@ -20,15 +20,13 @@ let isNavOpen = false;
    侧边栏功能
    ====================== */
 
-// 修改openSidebar和closeSidebar函数
 function openSidebar() {
     sidebar.classList.add('active');
     sidebarOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
     isSidebarOpen = true;
     
-    // 添加导航栏固定类
-    document.querySelector('.navbar').classList.add('sidebar-open');
+    // 不再需要添加额外类，因为CSS已经强制固定导航栏
 }
 
 function closeSidebar() {
@@ -36,9 +34,6 @@ function closeSidebar() {
     sidebarOverlay.classList.remove('active');
     document.body.style.overflow = '';
     isSidebarOpen = false;
-    
-    // 移除导航栏固定类
-    document.querySelector('.navbar').classList.remove('sidebar-open');
 }
 
 // 防止在侧边栏打开时滚动
