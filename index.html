@@ -11,12 +11,13 @@
     <!-- 导航栏 -->
     <nav class="navbar">
         <div class="navbar-container">
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
             <a href="#" class="logo">Mr.Chen</a>
-            <!-- 右侧菜单按钮 -->
             <button class="menu-toggle" id="menuToggle">
                 <i class="fas fa-bars"></i>
             </button>
-            <!-- 导航链接（默认隐藏） -->
             <ul class="nav-links" id="navLinks">
                 <li><a href="#">首页</a></li>
                 <li><a href="#">文章</a></li>
@@ -24,13 +25,10 @@
                 <li><a href="#">关于</a></li>
                 <li><a href="#">联系</a></li>
             </ul>
-            <!-- 左侧侧边栏按钮 -->
-            <button class="sidebar-toggle" id="sidebarToggle">
-                <i class="fas fa-bars"></i>
-            </button>
         </div>
     </nav>
-    <!-- 添加遮罩层 -->
+    
+    <!-- 侧边栏遮罩层 -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
     
     <!-- 主要内容 -->

@@ -25,8 +25,6 @@ function openSidebar() {
     sidebarOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
     isSidebarOpen = true;
-    
-    // 不再需要添加额外类，因为CSS已经强制固定导航栏
 }
 
 function closeSidebar() {
@@ -34,14 +32,6 @@ function closeSidebar() {
     sidebarOverlay.classList.remove('active');
     document.body.style.overflow = '';
     isSidebarOpen = false;
-}
-
-// 防止在侧边栏打开时滚动
-function lockScroll(e) {
-    if (isSidebarOpen) {
-        e.preventDefault();
-        window.scrollTo(0, 0);
-    }
 }
 
 sidebarToggle.addEventListener('click', (e) => {
@@ -71,23 +61,11 @@ function openNav() {
     
     navLinks.classList.add('active');
     isNavOpen = true;
-    
-    // 禁用侧边栏按钮
-    sidebarToggle.style.pointerEvents = 'none';
 }
-
-document.addEventListener('click', (e) => {
-    if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
-        navLinks.classList.remove('active');
-    }
-});
 
 function closeNav() {
     navLinks.classList.remove('active');
     isNavOpen = false;
-    
-    // 重新启用侧边栏按钮
-    sidebarToggle.style.pointerEvents = 'auto';
 }
 
 menuToggle.addEventListener('click', (e) => {
@@ -104,16 +82,7 @@ document.addEventListener('click', (e) => {
         closeNav();
     }
 });
-/* ======================
-   窗口大小变化处理
-   ====================== */
 
-   window.addEventListener('resize', () => {
-    if (window.innerWidth > 768) {
-        closeSidebar();
-        navLinks.classList.remove('active');
-    }
-});
 /* ======================
    PDF查看功能
    ====================== */
@@ -146,12 +115,8 @@ pdfLink2.addEventListener('click', (e) => {
 window.addEventListener('resize', () => {
     if (window.innerWidth > 768) {
         // 在桌面端强制关闭所有移动菜单
-        if (isSidebarOpen) {
-            closeSidebar();
-        }
-        if (isNavOpen) {
-            closeNav();
-        }
+        closeSidebar();
+        closeNav();
     }
 });
 

@@ -19,11 +19,10 @@ body {
     color: #333;
     background-color: var(--light-color);
     overflow-x: hidden;
-    transition: transform var(--transition-speed) ease;
+    padding-top: 60px; /* 为固定导航栏留出空间 */
 }
 
 /* 导航栏 */
-/* 导航栏 - 始终固定在顶部且不受变换影响 */
 .navbar {
     position: fixed;
     top: 0;
@@ -35,9 +34,7 @@ body {
     z-index: 1100;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     transform: none !important;
-    will-change: transform;
 }
-
 
 .navbar-container {
     display: flex;
@@ -117,7 +114,7 @@ body {
 .container {
     display: flex;
     max-width: 1200px;
-    margin: 5rem auto 2rem;
+    margin: 0 auto 2rem;
     padding: 0 1rem;
     position: relative;
 }
@@ -198,9 +195,76 @@ body {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     margin-left: 1rem;
     transition: transform var(--transition-speed) ease;
-    position: relative;
-    z-index: 1;
 }
+
+/* 响应式设计 - 移动端 */
+@media (max-width: 768px) {
+    .sidebar-toggle,
+    .menu-toggle {
+        display: block;
+    }
+    
+    .nav-links {
+        display: none;
+        position: fixed;
+        top: 60px;
+        right: 0;
+        width: 80%;
+        height: calc(100vh - 60px);
+        background-color: var(--secondary-color);
+        flex-direction: column;
+        padding: 1rem;
+        transform: translateX(100%);
+        transition: transform var(--transition-speed) ease;
+        z-index: 1000;
+    }
+    
+    .nav-links.active {
+        display: flex;
+        transform: translateX(0);
+    }
+    
+    .nav-links li {
+        margin: 0.5rem 0;
+    }
+    
+    /* 侧边栏 - 移动样式 */
+    .sidebar {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: var(--sidebar-width);
+        height: calc(100vh - 60px);
+        z-index: 1000;
+        background-color: white;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        transform: translateX(-100%);
+        transition: transform var(--transition-speed) ease;
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    /* 主内容区 - 侧边栏打开时效果 */
+    .main-content {
+        margin-left: 0;
+    }
+    
+    .sidebar.active ~ .main-content {
+        transform: translateX(var(--sidebar-width));
+    }
+    
+    /* 其他移动端调整 */
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+    
+    .pdf-viewer {
+        height: 400px;
+    }
+}
+
 
 /* 背景图区域 */
 .hero {
@@ -221,12 +285,16 @@ body {
 .hero-content h1 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
-    animation: slideUp 0.8s ease-out;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideUp 0.8s ease-out forwards;
 }
 
 .hero-content p {
     font-size: 1.2rem;
-    animation: slideUp 1s ease-out;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideUp 1s ease-out forwards;
 }
 
 /* PDF查看器 */
@@ -261,6 +329,8 @@ body {
     overflow: hidden;
     margin-bottom: 2rem;
     transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    opacity: 0;
+    transform: translateY(20px);
 }
 
 .article-card:hover {
@@ -349,127 +419,74 @@ body {
     }
 }
 
-/* ======================
-   响应式设计 - 移动端
-   ====================== */
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-        margin-top: 4rem;
-    }
-    
-    .sidebar-toggle,
-    .menu-toggle {
-        display: block;
-    }
-    
-    /* 侧边栏 - 移动样式 */
-    .sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: var(--sidebar-width);
-        height: 100vh;
-        z-index: 1000;
-        background-color: white;
-        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-        transform: translateX(-100%);
-        transition: transform var(--transition-speed) ease;
-        overflow-y: auto;
-        margin-bottom: 0;
-    }
-    
-    .sidebar.active {
-        transform: translateX(0);
-    }
-    
-    /* 主内容区 - 侧边栏打开时效果 */
-    .main-content {
-        margin-left: 0;
-        transform: translateX(0);
-        transition: transform var(--transition-speed) ease;
-    }
-    
-    .sidebar.active ~ .main-content {
-        transform: translateX(var(--sidebar-width));
-    }
-    
-    /* 导航菜单 - 移动样式 */
-    .nav-links {
-        display: none;
-        position: fixed;
-        top: 60px;
-        right: 0;
-        width: 80%;
-        height: calc(100vh - 60px);
-        background-color: var(--secondary-color);
-        flex-direction: column;
-        padding: 1rem;
-        transform: translateX(100%);
-        transition: transform var(--transition-speed) ease;
-        z-index: 1000;
-    }
-    
-    .nav-links.active {
-        transform: translateX(0);
-    }
-    
-    .nav-links li {
-        margin: 0.5rem 0;
-    }
-    
-    /* 其他移动端调整 */
-    .hero-content h1 {
-        font-size: 2rem;
-    }
-    
-    .pdf-viewer {
-        height: 400px;
-    }
-    
-    /* 侧边栏打开时禁止页面滚动 */
-    body.sidebar-open {
-        overflow: hidden;
-    }
-}
-/* 菜单按钮样式 */
-.menu-toggle {
-    display: none; /* 桌面端隐藏 */
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.5rem;
-    cursor: pointer;
-    order: 3; /* 确保在右侧 */
+/* 平滑滚动目标偏移 */
+:target {
+    scroll-margin-top: 80px; /* 匹配导航栏高度 */
 }
 
-/* 移动端样式 */
-@media (max-width: 768px) {
-    /* 显示菜单按钮 */
-    .menu-toggle {
-        display: block;
+/* 打印样式 */
+@media print {
+    .navbar,
+    .sidebar,
+    .sidebar-toggle,
+    .menu-toggle,
+    .footer {
+        display: none !important;
     }
     
-    /* 隐藏桌面导航链接 */
-    .nav-links {
-        display: none;
+    body {
+        padding: 0;
+        background: none;
     }
     
-    /* 侧边栏从导航栏下方开始 */
-    .sidebar {
-        top: 60px;
-        height: calc(100vh - 60px);
+    .container {
+        margin: 0;
+        padding: 0;
     }
     
-    /* 主内容平移 */
-    .sidebar.active ~ .main-content {
-        transform: translateX(var(--sidebar-width));
+    .main-content {
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
     }
     
-    /* 移动菜单样式 */
-    .nav-links.active {
-        display: flex;
-        top: 60px;
-        height: calc(100vh - 60px);
+    .article-card {
+        break-inside: avoid;
+        margin-bottom: 1cm;
+    }
+    
+    a::after {
+        content: " (" attr(href) ")";
+        font-size: 0.8em;
+        font-weight: normal;
+    }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: more) {
+    :root {
+        --primary-color: #0056b3;
+        --secondary-color: #000;
+        --light-color: #fff;
+        --dark-color: #000;
+    }
+    
+    body {
+        color: #000;
+        background: #fff;
+    }
+    
+    .sidebar-menu a {
+        border: 1px solid #000;
+    }
+}
+
+/* 减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }
