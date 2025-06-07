@@ -441,10 +441,53 @@ body {
 
 /* 移动端菜单样式 */
 @media (max-width: 768px) {
-    .menu-toggle {
-        display: block; /* 移动端显示 */
+    .container {
+        flex-direction: column;
+        margin-top: 4rem;
     }
-
+    
+    .sidebar-toggle,
+    .menu-toggle {
+        display: block;
+    }
+    
+    /* 导航栏不受平移影响 */
+    .navbar {
+        transform: none !important;
+    }
+    
+    /* 侧边栏 - 移动样式 */
+    .sidebar {
+        position: fixed;
+        top: 60px; /* 从导航栏下方开始 */
+        left: 0;
+        width: var(--sidebar-width);
+        height: calc(100vh - 60px); /* 减去导航栏高度 */
+        z-index: 1000;
+        background-color: white;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        transform: translateX(-100%);
+        transition: transform var(--transition-speed) ease;
+        overflow-y: auto;
+        margin-bottom: 0;
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    /* 主内容区 - 侧边栏打开时效果 */
+    .main-content {
+        margin-left: 0;
+        transform: translateX(0);
+        transition: transform var(--transition-speed) ease;
+    }
+    
+    .sidebar.active ~ .main-content {
+        transform: translateX(var(--sidebar-width));
+    }
+    
+    /* 导航菜单 - 移动样式 */
     .nav-links {
         display: none;
         position: fixed;
@@ -456,12 +499,24 @@ body {
         flex-direction: column;
         padding: 1rem;
         transform: translateX(100%);
-        transition: transform 0.3s ease;
+        transition: transform var(--transition-speed) ease;
         z-index: 1000;
     }
-
+    
     .nav-links.active {
-        display: flex;
         transform: translateX(0);
+    }
+    
+    .nav-links li {
+        margin: 0.5rem 0;
+    }
+    
+    /* 其他移动端调整 */
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+    
+    .pdf-viewer {
+        height: 400px;
     }
 }
