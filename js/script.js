@@ -20,19 +20,14 @@ let isNavOpen = false;
    侧边栏功能
    ====================== */
 
-function openSidebar() {
-    // 关闭导航菜单如果它是打开的
-    if (isNavOpen) {
-        closeNav();
-    }
-    
+   function openSidebar() {
     sidebar.classList.add('active');
     sidebarOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
     isSidebarOpen = true;
     
-    // 禁用菜单按钮
-    menuToggle.style.pointerEvents = 'none';
+    // 临时禁用滚动监听
+    window.addEventListener('scroll', lockScroll, { passive: false });
 }
 
 function closeSidebar() {
@@ -41,8 +36,16 @@ function closeSidebar() {
     document.body.style.overflow = '';
     isSidebarOpen = false;
     
-    // 重新启用菜单按钮
-    menuToggle.style.pointerEvents = 'auto';
+    // 恢复滚动监听
+    window.removeEventListener('scroll', lockScroll);
+}
+
+// 防止在侧边栏打开时滚动
+function lockScroll(e) {
+    if (isSidebarOpen) {
+        e.preventDefault();
+        window.scrollTo(0, 0);
+    }
 }
 
 sidebarToggle.addEventListener('click', (e) => {
@@ -54,14 +57,7 @@ sidebarToggle.addEventListener('click', (e) => {
     }
 });
 
-sidebarOverlay.addEventListener('click', () => {
-    if (isSidebarOpen) {
-        closeSidebar();
-    }
-    if (isNavOpen) {
-        closeNav();
-    }
-});
+sidebarOverlay.addEventListener('click', closeSidebar);
 
 sidebar.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -83,6 +79,12 @@ function openNav() {
     // 禁用侧边栏按钮
     sidebarToggle.style.pointerEvents = 'none';
 }
+
+document.addEventListener('click', (e) => {
+    if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+        navLinks.classList.remove('active');
+    }
+});
 
 function closeNav() {
     navLinks.classList.remove('active');
@@ -106,7 +108,16 @@ document.addEventListener('click', (e) => {
         closeNav();
     }
 });
+/* ======================
+   窗口大小变化处理
+   ====================== */
 
+   window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) {
+        closeSidebar();
+        navLinks.classList.remove('active');
+    }
+});
 /* ======================
    PDF查看功能
    ====================== */
