@@ -297,29 +297,7 @@ body {
     animation: slideUp 1s ease-out forwards;
 }
 
-/* PDF查看器 */
-.pdf-viewer {
-    width: 100%;
-    height: 600px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin-top: 2rem;
-    overflow: hidden;
-    transition: all var(--transition-speed);
-    opacity: 0;
-    transform: translateY(20px);
-}
 
-.pdf-viewer.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.pdf-viewer iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-}
 
 /* 文章卡片 */
 .article-card {
@@ -488,5 +466,88 @@ body {
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
+    }
+}
+/* 移动端导航栏与背景图间距 */
+@media (max-width: 768px) {
+    .hero {
+        margin-top: 20px; /* 添加顶部间距 */
+    }
+    
+    /* 调整侧边栏和导航栏的z-index确保层级正确 */
+    .navbar {
+        z-index: 1100;
+    }
+    
+    .sidebar {
+        z-index: 1000;
+    }
+}
+/* 侧边栏链接样式增强 */
+.sidebar-menu a {
+    padding: 0.75rem 1rem;
+    transition: all var(--transition-speed);
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-menu a:hover {
+    background-color: rgba(52, 152, 219, 0.2);
+    transform: translateX(8px);
+}
+
+.sidebar-menu a.active {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: bold;
+}
+
+/* 移动端侧边栏宽度调整 */
+@media (max-width: 768px) {
+    :root {
+        --sidebar-width: 85%;
+    }
+}
+
+
+/* 按钮禁用状态样式 */
+.navbar-container button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+.navbar-container button {
+    transition: opacity 0.2s ease;
+}
+.navbar-container button:active:not(.disabled) {
+    transform: scale(0.95);
+}
+/* 移动端按钮布局调整 */
+@media (max-width: 768px) {
+    .navbar-container {
+        justify-content: space-between;
+    }
+    
+    .sidebar-toggle, .menu-toggle {
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .logo {
+        order: 2;
+        flex-grow: 1;
+        text-align: center;
+        padding: 0 10px;
+    }
+    
+    .sidebar-toggle {
+        order: 1;
+    }
+    
+    .menu-toggle {
+        order: 3;
     }
 }
