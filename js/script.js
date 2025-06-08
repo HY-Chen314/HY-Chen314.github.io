@@ -44,6 +44,7 @@ function closeSidebar() {
 
 function openNav() {
  // 关闭侧边栏如果它是打开的
+ document.body.classList.add('menu-open');
  if (isSidebarOpen) {
      closeSidebar();
  }
@@ -58,6 +59,7 @@ function openNav() {
 
 function closeNav() {
  navLinks.classList.remove('active');
+ document.body.classList.remove('menu-open');
  isNavOpen = false;
  
  // 启用侧边栏按钮
