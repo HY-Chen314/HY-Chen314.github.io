@@ -2,6 +2,9 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <!-- 预加载Font Awesome -->
+<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"></noscript>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>音乐空间 - Mr.Chen</title>
     <!-- 通用样式 -->
@@ -10,7 +13,7 @@
     <link rel="stylesheet" href="../css/music.css">
     <!-- MathJax渲染引擎 -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
     <!-- 导航栏 (与主站一致) -->
@@ -52,9 +55,6 @@
                     <section id="tex-display" class="tex-section">
                         <h2>LaTeX内容展示</h2>
                         <div class="tex-content">
-                            <!-- 示例：直接嵌入LaTeX -->
-                            <p>行内公式示例: \( E = mc^2 \)</p>
-                            <p>行间公式示例: \[ \int_a^b f(x)dx \]</p>
                             
                             <!-- 从tex文件加载的内容将在这里渲染 -->
                             <div id="tex-render-area"></div>

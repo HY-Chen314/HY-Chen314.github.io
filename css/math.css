@@ -23,3 +23,97 @@ mjx-container[jax="CHTML"] {
 .footer {
     background: linear-gradient(to right, #3498db, #9b59b6);
 }
+/* 修复移动端按钮图标显示问题 */
+@media (max-width: 768px) {
+    .navbar-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+    
+    .sidebar-toggle, .menu-toggle {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        color: white !important;
+        font-size: 1.5rem;
+        z-index: 1101;
+        background: transparent;
+        border: none;
+    }
+    
+    .sidebar-toggle i, 
+    .menu-toggle i {
+        display: inline-block !important;
+    }
+    
+    .logo {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: auto;
+        margin: 0;
+    }
+}
+/* 确保按钮样式与主页面一致 */
+@media (max-width: 768px) {
+    .sidebar-toggle, 
+    .menu-toggle {
+        /* 基础样式 */
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        font-size: 1.8rem;  /* 增大图标尺寸 */
+        z-index: 1101;
+        background: transparent;
+        border: none;
+        padding: 0;
+        margin: 0 10px;
+        
+        /* 图标样式 */
+        color: white !important;
+        transition: transform 0.2s ease;
+    }
+    
+    /* 按钮图标加粗效果 */
+    .sidebar-toggle i.fas,
+    .menu-toggle i.fas {
+        font-weight: 900;  /* 使用最粗的图标权重 */
+        font-size: 1.8em;  /* 增大图标尺寸 */
+    }
+    
+    /* 按钮点击效果 */
+    .sidebar-toggle:active, 
+    .menu-toggle:active {
+        transform: scale(0.9);
+    }
+    
+    /* 确保logo居中不干扰按钮 */
+    .logo {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 120px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}/* 按钮禁用状态 */
+.navbar-container button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* 按钮悬停效果 */
+@media (hover: hover) {
+    .sidebar-toggle:hover, 
+    .menu-toggle:hover {
+        opacity: 0.8;
+    }
+}

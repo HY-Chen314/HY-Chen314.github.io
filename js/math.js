@@ -1,41 +1,88 @@
+// 确保按钮图标加载
+function checkIconsLoaded() {
+    const icons = document.querySelectorAll('.fa-bars');
+    icons.forEach(icon => {
+        if (!icon || !icon.style.fontFamily || !icon.style.fontFamily.includes('FontAwesome')) {
+            // 如果图标没加载，显示备用内容
+            icon.parentElement.textContent = '☰';
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    // 加载并渲染tex文件
+    checkIconsLoaded();
+    
+    // 原有代码...
+});
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM已加载"); // 调试点1
+
+    const renderArea = document.getElementById('tex-render-area');
+    if (!renderArea) {
+        console.error('错误: 未找到渲染区域');
+        return;
+    }
+
+    window.MathJax = {
+        tex: {
+            inlineMath: [['\\(', '\\)']],
+            displayMath: [['\\[', '\\]']],
+            processEscapes: true
+        },
+        options: {
+            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+        },
+        startup: {
+            pageReady: () => {
+                console.log("MathJax初始化完成"); // 调试点2
+                return MathJax.startup.defaultPageReady();
+            }
+        }
+    };
+
     fetch('../tex/math/sample.tex')
-        .then(response => response.text())
+        .then(response => {
+            console.log("HTTP状态码:", response.status); // 调试点3
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return response.text();
+        })
         .then(texContent => {
-            // 将$$...$$格式转换为MathJax可识别的\[...\]
+            console.log("原始文件内容:", texContent); // 调试点4
+            
             const formatted = texContent
                 .replace(/\$\$(.*?)\$\$/gs, '\\[$1\\]')
                 .replace(/\$(.*?)\$/g, '\\($1\\)');
             
-            document.getElementById('tex-render-area').innerHTML = formatted;
-            
-            // 通知MathJax重新渲染
-            if (window.MathJax) {
-                MathJax.typesetPromise();
-            }
+            console.log("格式化后内容:", formatted); // 调试点5
+            renderArea.innerHTML = formatted;
+
+            return MathJax.typesetPromise();
+        })
+        .then(() => {
+            console.log("公式渲染完成"); // 调试点6
         })
         .catch(error => {
-            console.error('Error loading tex file:', error);
-            document.getElementById('tex-render-area').innerHTML = 
-                '<p class="error">加载公式失败，请刷新重试</p>';
+            console.error("完整错误链:", error);
+            renderArea.innerHTML = `
+                <div style="color:red; border:1px solid #f99; padding:10px;">
+                    <p>加载失败: ${error.message}</p>
+                    <p>文件路径: ${new URL('../tex/math/sample.tex', window.location.href)}</p>
+                    <details><summary>技术详情</summary><pre>${error.stack}</pre></details>
+                </div>
+            `;
         });
 });
-// 公式渲染完成后执行
-MathJax = {
-    startup: {
-        ready() {
-            MathJax.startup.defaultReady();
-            // 强制重排解决移动端布局问题
-            setTimeout(() => {
-                document.body.style.overflow = 'auto';
-                window.dispatchEvent(new Event('resize'));
-            }, 300);
-        }
-    },
-    options: {
-        renderActions: {
-            addMenu: [0, '', '']
-        }
+document.addEventListener("DOMContentLoaded", function() {
+    const renderArea = document.getElementById("tex-render-area");
+    renderArea.innerHTML = `
+      <p>行内公式: \( \sqrt{2} \)</p>
+      <p>块级公式: \[ \int_a^b f(x)dx \]</p>
+    `;
+    
+    // 手动触发 MathJax 渲染
+    if (window.MathJax) {
+      MathJax.typesetPromise();
+    } else {
+      console.error("MathJax 未加载！");
     }
-};
+  });

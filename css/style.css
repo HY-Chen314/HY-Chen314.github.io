@@ -469,18 +469,32 @@ body {
     }
 }
 /* 移动端导航栏与背景图间距 */
+/* 修复移动端按钮显示问题 */
 @media (max-width: 768px) {
-    .hero {
-        margin-top: 20px; /* 添加顶部间距 */
+    .sidebar-toggle, 
+    .menu-toggle {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 44px; /* 最小触摸目标尺寸 */
+        height: 44px;
+        font-size: 1.5rem;
+        z-index: 1101; /* 确保按钮在最上层 */
+        background: rgba(255,255,255,0.1);
+        border-radius: 4px;
     }
     
-    /* 调整侧边栏和导航栏的z-index确保层级正确 */
-    .navbar {
+    /* 确保按钮不会被其他元素覆盖 */
+    .navbar-container {
+        position: relative;
         z-index: 1100;
     }
     
-    .sidebar {
-        z-index: 1000;
+    /* 调整logo位置 */
+    .logo {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
     }
 }
 /* 侧边栏链接样式增强 */
@@ -704,5 +718,62 @@ body {
     /* 确保内容不超出视口 */
     .main-content {
         padding-bottom: 80px; /* 大于页脚高度 */
+    }
+}
+body.footer-fixed .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+@media (max-width: 768px) {
+    /* 解决iOS Safari的100vh问题 */
+    @supports (-webkit-touch-callout: none) {
+        body {
+            min-height: -webkit-fill-available;
+        }
+    }
+    
+    /* 防止内容被键盘挤压 */
+    .main-wrapper {
+        position: relative;
+        z-index: 1;
+    }
+    
+    .footer {
+        padding: 1rem;
+    }
+}
+/* 修复移动端标题栏遮挡问题 */
+@media (max-width: 768px) {
+    body {
+        padding-top: 70px; /* 增加顶部内边距 */
+    }
+    
+    .navbar {
+        height: 70px; /* 增加导航栏高度 */
+        padding: 0.5rem 1rem;
+    }
+    
+    .main-content {
+        margin-top: 10px; /* 增加主内容上边距 */
+    }
+    
+    /* 确保内容不被遮挡 */
+    .container {
+        min-height: calc(100vh - 140px); /* 减去导航栏和页脚高度 */
+    }
+}
+/* 修复页脚定位 */
+.footer {
+    position: relative;
+    z-index: 100;
+    margin-top: auto;
+    padding: 1rem;
+}
+
+@media (max-width: 768px) {
+    .footer {
+        padding: 1rem 0.5rem;
     }
 }

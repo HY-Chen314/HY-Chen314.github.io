@@ -166,3 +166,59 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+// 确保页脚在动态内容加载后仍置底
+function adjustFooter() {
+    const docHeight = document.documentElement.scrollHeight;
+    const winHeight = window.innerHeight;
+    
+    if (docHeight <= winHeight) {
+        document.body.classList.add('footer-fixed');
+    } else {
+        document.body.classList.remove('footer-fixed');
+    }
+}
+
+// 监听事件
+window.addEventListener('load', adjustFooter);
+window.addEventListener('resize', adjustFooter);
+// 在DOM加载完成后执行
+document.addEventListener('DOMContentLoaded', function() {
+    // 移动端布局修复函数
+    function adjustMobileLayout() {
+        if (window.innerWidth <= 768) {  // 移除px单位，直接比较数值
+            const navbar = document.querySelector('.navbar');
+            if (navbar) {  // 确保元素存在
+                const navbarHeight = navbar.offsetHeight;
+                document.body.style.paddingTop = `${navbarHeight}px`;
+                
+                // 计算最小高度时要包含页脚高度
+                const footerHeight = document.querySelector('.footer')?.offsetHeight || 60;
+                const mainContent = document.querySelector('.main-content');
+                if (mainContent) {
+                    mainContent.style.minHeight = `calc(100vh - ${navbarHeight + footerHeight}px)`;
+                }
+            }
+        }
+    }
+
+    // 初始调整
+    adjustMobileLayout();
+    
+    // 添加防抖的resize监听
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(adjustMobileLayout, 100);
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // 强制重绘图标
+    const icons = document.querySelectorAll('.fa-bars');
+    icons.forEach(icon => {
+        icon.style.display = 'none';
+        icon.offsetHeight; // 触发重绘
+        icon.style.display = 'inline-block';
+    });
+});
