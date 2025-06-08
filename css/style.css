@@ -501,7 +501,9 @@ body {
     color: white;
     font-weight: bold;
 }
-
+.footer {
+    background: linear-gradient(to right, #3498db, #9b59b6);
+}
 /* 移动端侧边栏宽度调整 */
 @media (max-width: 768px) {
     :root {
@@ -525,17 +527,22 @@ body {
 /* 移动端按钮布局调整 */
 @media (max-width: 768px) {
     .navbar-container {
-        justify-content: space-between;
+        padding: 0 15px; /* 增加左右内边距 */
     }
-    
-    .sidebar-toggle, .menu-toggle {
-        width: 44px;
-        height: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+
+    .sidebar-toggle, 
+    .menu-toggle {
+        font-size: 1.8rem; /* 增大图标 */
+        padding: 10px;
+        min-width: 44px; /* 符合触摸标准 */
+        background: transparent;
     }
-    
+
+    /* 按钮点击反馈 */
+    .sidebar-toggle:active, 
+    .menu-toggle:active {
+        transform: scale(0.9);
+    }
     .logo {
         order: 2;
         flex-grow: 1;
@@ -585,4 +592,117 @@ body.menu-open {
 /* 侧边栏层级提升 */
 .sidebar {
     z-index: 1000; /* 必须高于遮罩层 */
+}
+/* 全局布局调整 */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* 使用视口高度单位 */
+}
+
+.container {
+    flex: 1; /* 主要内容区填充剩余空间 */
+    display: flex;
+    padding-bottom: 2rem; /* 底部留白 */
+}
+
+.footer {
+    background-color: var(--secondary-color);
+    color: white;
+    text-align: center;
+    padding: 2rem;
+    margin-top: auto; /* 关键：自动顶部外边距实现沉底 */
+}
+/* 移动端页脚优化 */
+@media (max-width: 768px) {
+    .footer {
+        padding: 1.5rem 0;
+    }
+    
+    .footer-content {
+        max-width: 95%;
+        margin: 0 auto;
+    }
+    
+    .social-links a {
+        margin: 0 10px;
+        font-size: 1.3rem;
+    }
+}
+
+/* 防止内容被页脚遮挡 */
+.main-content {
+    padding-bottom: 60px; /* 大于等于页脚高度 */
+}
+/* PDF容器响应式处理 */
+.pdf-container {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #ddd;
+    margin: 1rem 0;
+    -webkit-overflow-scrolling: touch; /* 移动端平滑滚动 */
+}
+
+/* 数学公式换行处理 */
+.MathJax_Display {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+/* 通用横向滚动处理 */
+@media (min-width: 768px) {
+    .main-content {
+        min-width: 0; /* 允许内容收缩 */
+    }
+}
+/* 重置全局布局 */
+html {
+    height: 100%;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    padding-top: 60px; /* 导航栏高度 */
+}
+
+/* 主内容区 */
+.container {
+    flex: 1 0 auto; /* 关键：允许增长但不收缩 */
+    width: 100%;
+    display: flex;
+}
+
+/* 页脚锁定 */
+.footer {
+    flex-shrink: 0;
+    background-color: var(--secondary-color);
+    padding: 1.5rem;
+    margin-top: auto; /* 关键属性 */
+}
+@media (max-width: 768px) {
+    /* 修复iOS Safari的100vh问题 */
+    @supports (-webkit-touch-callout: none) {
+        body {
+            min-height: -webkit-fill-available;
+        }
+    }
+
+    /* 页脚内边距调整 */
+    .footer {
+        padding: 1rem 0;
+    }
+
+    /* 确保内容不超出视口 */
+    .main-content {
+        padding-bottom: 80px; /* 大于页脚高度 */
+    }
 }

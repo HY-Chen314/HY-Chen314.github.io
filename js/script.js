@@ -151,3 +151,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }, index * 200);
     });
 });
+// 移动端按钮控制（确保在DOM加载后执行）
+document.addEventListener('DOMContentLoaded', function() {
+    const buttons = document.querySelectorAll('.sidebar-toggle, .menu-toggle');
+    
+    buttons.forEach(button => {
+        // 添加触摸反馈
+        button.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.95)';
+        });
+        
+        button.addEventListener('touchend', function() {
+            this.style.transform = '';
+        });
+    });
+});
